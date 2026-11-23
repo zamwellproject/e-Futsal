@@ -1,0 +1,16 @@
+export async function createArena(container,onFallback){
+ let THREE;try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js')}catch(e){onFallback?.('Three.js CDN tidak tersedia. Pastikan internet aktif.');return null}
+ try{const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(container.clientWidth,container.clientHeight);renderer.shadowMap.enabled=true;container.appendChild(renderer.domElement);
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#081b13');scene.fog=new THREE.Fog('#081b13',35,75);const camera=new THREE.PerspectiveCamera(48,container.clientWidth/container.clientHeight,.1,100);camera.position.set(0,24,30);camera.lookAt(0,0,0);
+ scene.add(new THREE.HemisphereLight(0xd8ffe9,0x16261b,2));const light=new THREE.DirectionalLight(0xffffff,2.2);light.position.set(-8,18,10);scene.add(light);
+ const floor=new THREE.Mesh(new THREE.PlaneGeometry(40,24),new THREE.MeshStandardMaterial({color:'#13794e',roughness:.85}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+ const lineMat=new THREE.MeshBasicMaterial({color:'#d6f2df'});function line(x,z,w,h){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),lineMat);m.rotation.x=-Math.PI/2;m.position.set(x,.025,z);scene.add(m)}
+ line(0,-11,36,.08);line(0,11,36,.08);line(-18,0,.08,22);line(18,0,.08,22);line(0,0,.08,22);const circle=new THREE.Mesh(new THREE.RingGeometry(3.9,4,.02,96),lineMat);circle.rotation.x=-Math.PI/2;circle.position.y=.03;scene.add(circle);
+ function goal(z){const mat=new THREE.MeshStandardMaterial({color:'#f1f5f2'});for(const [x,y] of [[-3,0],[3,0],[0,2]]){const mesh=new THREE.Mesh(new THREE.BoxGeometry(.12,.12,.12),mat);mesh.position.set(x,y,z);scene.add(mesh)}const bar=new THREE.Mesh(new THREE.BoxGeometry(6,.12,.12),mat);bar.position.set(0,2,z);scene.add(bar)}goal(-11);goal(11);
+ const ball=new THREE.Mesh(new THREE.SphereGeometry(.32,18,14),new THREE.MeshStandardMaterial({color:'#ffffff'}));ball.position.set(0,.32,0);scene.add(ball);
+ const players=[];function makePlayer(team,slot,kit){const group=new THREE.Group();const jersey=new THREE.Mesh(new THREE.CylinderGeometry(.38,.44,.9,12),new THREE.MeshStandardMaterial({color:kit}));jersey.position.y=1.05;group.add(jersey);const head=new THREE.Mesh(new THREE.SphereGeometry(.24,12,10),new THREE.MeshStandardMaterial({color:'#d6a17b'}));head.position.y=1.65;group.add(head);const legs=new THREE.Mesh(new THREE.BoxGeometry(.35,.65,.3),new THREE.MeshStandardMaterial({color:'#e8e9e8'}));legs.position.y=.4;group.add(legs);group.position.y=0;scene.add(group);players.push({group,team,slot,jersey});return group}
+ const resize=()=>{const w=container.clientWidth,h=container.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h)};window.addEventListener('resize',resize);
+ function render(){renderer.render(scene,camera)}
+ return {THREE,scene,camera,renderer,ball,players,makePlayer,render,resize,dispose(){window.removeEventListener('resize',resize);renderer.dispose();container.innerHTML=''}}
+ }catch(e){onFallback?.('WebGL gagal diinisialisasi.');return null}
+}
