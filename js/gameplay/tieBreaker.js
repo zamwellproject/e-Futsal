@@ -1,1 +1,1 @@
-export class TieBreaker{static decide(a,b){if(a!==b)return a>b?'home':'away';return ['Gunting','Batu','Kertas'][Math.floor(Math.random()*3)]}}
+export class TieBreaker{static decide(a,b){if(a!==b)return a>b?'home':'away';return ['Gunting','Batu','Kertas'][Math.floor(Math.random()*3)]}static suit(a,b){const win={Gunting:'Kertas',Batu:'Gunting',Kertas:'Batu'};if(a===b)return 'draw';return win[a]===b?'home':'away'}}
