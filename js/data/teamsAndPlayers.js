@@ -1,1 +1,8 @@
-
+const rawPlayers=[
+['Hilmy',7,'Flank Kanan',82,74,78,86,55,25],['Sunan',18,'Anchor',72,65,84,70,86,22],['Faiq',48,'Pivot',74,88,70,76,62,20],['Nyong',29,'Flank Kiri',85,70,75,84,58,24],['Ahmad',25,'Anchor',73,68,79,71,82,22],['Hamdi',27,'Pivot',70,80,74,72,66,25],['I. Kenzie',13,'Flank Kanan',83,75,81,82,61,24],['Sajjad',10,'Pivot',75,86,73,78,60,24],['Al raffle',77,'Flank Kiri',80,78,76,82,60,25],['Rakan',23,'Anchor',72,70,80,70,84,22],['Abiyu',7,'Flank Kanan',82,72,73,82,62,20],['Mangg os',67,'Pivot',68,82,72,75,65,24],['Najid',57,'Anchor',74,66,78,70,85,20],['Bima',2,'GK',68,40,65,50,70,88],['I.kenzie',9,'GK',72,45,66,52,72,82],['R. Maliq',6,'GK',70,42,65,48,70,85],['Naufal',1,'GK',75,48,68,55,72,90]
+];
+export const defaultPlayers=rawPlayers.map(([name,number,position,speed,shoot,pass,dribble,defense,gkHandling],i)=>({id:`p${i}`,name,number,position,speed,shoot,pass,dribble,defense,gkHandling}));
+export const teams=[{name:'EVERSION',short:'EVR',primary:'#087f5b',accent:'#e9f5ef'},{name:'Vaedalation',short:'VDL',primary:'#6334a4',accent:'#e7d6ff'},{name:'Alwafi futsal academy',short:'AWFA',primary:'#d36b19',accent:'#fff1d8'},{name:'Zetsvire',short:'ZVR',primary:'#1354b4',accent:'#e0edff'}];
+export function getRoster(){try{const custom=JSON.parse(localStorage.getItem('ef3d_players')||'null');return Array.isArray(custom)?custom:structuredClone(defaultPlayers)}catch{return structuredClone(defaultPlayers)}}
+export function saveRoster(players){localStorage.setItem('ef3d_players',JSON.stringify(players))}
+export function resetRoster(){localStorage.removeItem('ef3d_players');return structuredClone(defaultPlayers)}
