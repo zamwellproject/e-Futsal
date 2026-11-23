@@ -11,7 +11,7 @@ Karena memakai ES Modules, jalankan dari server lokal, bukan file://.
 Upload seluruh isi folder ini ke root repository. Settings → Pages → Deploy from a branch → `main` → `/root`.
 
 ## Admin
-Password admin: `azwilkece26`. Panel admin mengelola roster lokal di browser (`localStorage`). Ini bukan autentikasi aman untuk website publik; password berada di JavaScript dan hanya untuk prototipe.
+Password admin: `rahasia`. Panel admin mengelola roster lokal di browser (`localStorage`). Ini bukan autentikasi aman untuk website publik; password berada di JavaScript dan hanya untuk prototipe.
 
 ## Kontrol
 - Gerak: WASD / Arrow Keys / joystick
