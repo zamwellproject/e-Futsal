@@ -1,0 +1,1 @@
+Model 3D eksternal tidak diperlukan. Pemain, bola, lapangan, dan gawang dibuat secara procedural oleh Three.js. Folder ini disediakan untuk aset tambahan di masa mendatang.
